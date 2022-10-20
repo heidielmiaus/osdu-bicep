@@ -64,13 +64,16 @@ jobs:
       # always a delay in updating Bicep CLI in the job runner environments.
       - name: Install the latest Bicep CLI
         run: |
-          CURRENT=$(pwd) 
-          cd ..
+          pwd
+          ls -l
+          CURRENT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+          PARENT_DIR=`dirname $SCRIPT_DIR`
+          cd $PARENT_DIR
           curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x ./bicep
           sudo mv ./bicep /usr/local/bin/bicep
           bicep --version
-          cd $CURRENT
+          cd $CURRENT_DIR
 
       - name: Publish module
         env:
