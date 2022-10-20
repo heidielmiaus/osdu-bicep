@@ -30,8 +30,7 @@ function getSubdirNames(fs, dir) {
 async function generateModulesTable(axios, fs, path, core) {
   const tableData = [["Module", "Version", "Docs"]];
   const moduleGroups = getSubdirNames(fs, "modules");
-  const tagsUrl =
-    "https://api.github.com/repos/azure/osdu-bicep/tags";
+  const tagsUrl = "https://api.github.com/repos/azure/osdu-bicep/tags";
   const tagsResponse = await axios.get(tagsUrl);
   const tags = tagsResponse.data;
 

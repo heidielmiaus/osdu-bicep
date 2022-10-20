@@ -6,33 +6,30 @@ Some important information to consume about the Repo, before you contribute. The
 
 Start by looking through the active issues for [low hanging fruit](https://github.com/azure/osdu-bicep/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
-
 ## Action Workflows
 
 Have awareness of the various workflows that run on Push / PR / Schedule.
 
-| Workflow    | Fires on  | Purpose  |
-|-------------|-----------|----------|
-| Build | PR  | `Quality` To run the bicep linter upon changes to the bicep files  |
-| Greet       | Issue / PR | `Community` Greeting new contributors to the repo |
-| Labeller    | PR | `Tidy` Adds relevant labels to PR's based on files changed |
-| Release     | Manual | Publishes a new release and/or new Wizard Web app to GitHub Pages |
-
+| Workflow | Fires on   | Purpose                                                           |
+| -------- | ---------- | ----------------------------------------------------------------- |
+| Build    | PR         | `Quality` To run the bicep linter upon changes to the bicep files |
+| Greet    | Issue / PR | `Community` Greeting new contributors to the repo                 |
+| Labeller | PR         | `Tidy` Adds relevant labels to PR's based on files changed        |
+| Release  | Manual     | Publishes a new release and/or new Wizard Web app to GitHub Pages |
 
 ### Enforced PR Checks
 
-Each has a *Validate job*, that is required to pass before merging to main. PR's tagged with `bug`, that contain changes to bicep or workflow files will need to pass all of the jobs in the relevant workflows before merge is possible.
+Each has a _Validate job_, that is required to pass before merging to main. PR's tagged with `bug`, that contain changes to bicep or workflow files will need to pass all of the jobs in the relevant workflows before merge is possible.
 
 ### PR's from Forks
 
 If you're creating a PR from a fork then we're unable to run the typical actions to ensure quality that the core team are able to use. This is because GitHub prevents Forks from leveraging secrets in this repository. PR's from forks will therefore require comprehensive checking from the core team before merging. Don't be surprised if we change the target branch to a new branch in order to properly test the changes before they hit main.
 
-
 ## Branches
 
 ### Feature Branch
 
-For the *most part* we try to use feature branches to PR to Main
+For the _most part_ we try to use feature branches to PR to Main
 
 ```text
 ┌─────────────────┐         ┌───────────────┐
@@ -69,7 +66,6 @@ We anticipate the use of the Develop branch is primarily just for use with Forks
 ## Releases
 
 Releases are used to capture a tested release (all stages, not just Validation), where there are significant new features or bugfixes. The release does not include CI Action files, just an azuredeploy.json.
-
 
 ### Dev Container / Codespaces
 

@@ -9,27 +9,27 @@
 
 input:
   pathIgnore:
-  - '.vscode/'
-  - '*.md'
-  - '*.Designer.cs'
-  - '*.resx'
-  - '*.sln'
-  - '*.txt'
-  - '*.html'
-  - '*.ico'
+    - ".vscode/"
+    - "*.md"
+    - "*.Designer.cs"
+    - "*.resx"
+    - "*.sln"
+    - "*.txt"
+    - "*.html"
+    - "*.ico"
 
 include:
   path: []
   module:
-  - 'PSRule.Rules.Azure'
-  - 'PSRule.Rules.CAF'
+    - "PSRule.Rules.Azure"
+    - "PSRule.Rules.CAF"
 
 requires:
-  PSRule.Rules.CAF: '>=0.3.0'
+  PSRule.Rules.CAF: ">=0.3.0"
 
 output:
   culture:
-  - en-US
+    - en-US
 
 configuration:
   # Enable automatic expansion of Azure parameter files
@@ -44,10 +44,10 @@ configuration:
 
 rule:
   exclude:
-  # Ignore the following rules for all resources
-  - Azure.Resource.UseTags
-  - Azure.VM.Standalone
-  - Azure.KeyVault.SoftDelete
-  - Azure.KeyVault.PurgeProtect
-  - Azure.AppGw.UseHTTPS #In this project AGIC is in charge of managing the AppGW.
-  - Azure.ACR.ContentTrust
+    # Ignore the following rules for all resources
+    - Azure.Resource.UseTags
+    - Azure.VM.Standalone
+    - Azure.KeyVault.SoftDelete
+    - Azure.KeyVault.PurgeProtect
+    - Azure.AppGw.UseHTTPS #In this project AGIC is in charge of managing the AppGW.
+    - Azure.ACR.ContentTrust

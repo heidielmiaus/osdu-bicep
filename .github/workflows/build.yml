@@ -7,8 +7,8 @@ on:
     branches:
       - main
     paths:
-      - 'bicep/*'
-      -  '!bicep/modules/**'
+      - "bicep/*"
+      - "!bicep/modules/**"
 
   workflow_dispatch: #Manual execution will be good for debugging
 
@@ -81,12 +81,11 @@ jobs:
 
           /home/runner/.azure/bin/bicep build bicep/main.bicep --outdir $compiledir
 
-
       - name: Check for Parameter changes in main.json
         if: github.event_name != 'push'
         env:
-          oldFilePath: 'old/bicep/compiled/main.json'
-          newFilePath : 'bicep/compiled/main.json'
+          oldFilePath: "old/bicep/compiled/main.json"
+          newFilePath: "bicep/compiled/main.json"
         shell: pwsh
         run: |
 

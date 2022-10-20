@@ -11,7 +11,6 @@ jobs:
         shell: bash
         run: cat ./.github/workflows_dep/_typos.toml
 
-
       # https://github.com/crate-ci/typos
       - name: Check spelling of markdown files
         uses: crate-ci/typos@master
