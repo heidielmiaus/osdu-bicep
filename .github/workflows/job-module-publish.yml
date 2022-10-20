@@ -64,26 +64,8 @@ jobs:
         shell: pwsh
         run: |
           az bicep install
-          cd bicep
-          pwd
-          ls -l
-
-      # Adding a step to explicitly install the latest Bicep CLI because there is
-      # always a delay in updating Bicep CLI in the job runner environments.
-      # - name: Install the latest Bicep CLI
-      #   run: |
-      #     pwd
-      #     ls -l
-      #     CURRENT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-      #     PARENT_DIR=`dirname $CURRENT_DIR`
-      #     cd $PARENT_DIR
-      #     curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-      #     chmod +x ./bicep
-      #     sudo mv ./bicep /usr/local/bin/bicep
-      #     bicep --version
-      #     cd $CURRENT_DIR/bicep
 
       - name: Publish module
         env:
           SERVER: ${{ secrets.AZURE_REGISTRY_SERVER }}
-        run: bicep publish "${{ steps.parse-tag.outputs.module_path }}/main.json" --target "br:osdubicep.azurecr.io/${{ steps.parse-tag.outputs.module_path }}:${{ steps.parse-tag.outputs.version }}"
+        run: bicep publish "bicep/modules/${{ steps.parse-tag.outputs.module_path }}/main.json" --target "br:osdubicep.azurecr.io/${{ steps.parse-tag.outputs.module_path }}:${{ steps.parse-tag.outputs.version }}"
