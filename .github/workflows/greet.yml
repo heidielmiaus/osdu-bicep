@@ -1,4 +1,4 @@
-name: Greet
+name: Auto - Greet
 
 on: [pull_request_target, issues]
 

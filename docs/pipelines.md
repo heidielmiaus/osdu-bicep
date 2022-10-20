@@ -66,8 +66,22 @@ Documentation on the main `Readme.md` for the modules contains a table with all 
 
 ## Solution actions used in this repo
 
+### Infra Build
+
+### Integration Test
+
+### Infra Build
+
 ## Misc actions used in this repo
 
-### Markdown
+### Documentation
 
 This is a super simple action that runs a _spell check_ on any `.md` files in the repo. It's useful to catch simple mistakes from quick edits or other peoples PR's. This action is also part of the branch policy for merging to main.
+
+### Greet
+
+This is an auto action for a bot to reply to open issues and open pull requests.
+
+### Label
+
+This is an auto action for a bot to automatically apply labels based on what code was changed.
