@@ -60,20 +60,28 @@ jobs:
           tenant-id: ${{ secrets.PUBLISH_TENANT_ID }}
           subscription-id: ${{ secrets.PUBLISH_SUBSCRIPTION_ID }}
 
-      # Adding a step to explicitly install the latest Bicep CLI because there is
-      # always a delay in updating Bicep CLI in the job runner environments.
-      - name: Install the latest Bicep CLI
+      - name: Install Bicep
+        shell: pwsh
         run: |
+          az bicep install
+          cd bicep
           pwd
           ls -l
-          CURRENT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-          PARENT_DIR=`dirname $CURRENT_DIR`
-          cd $PARENT_DIR
-          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-          chmod +x ./bicep
-          sudo mv ./bicep /usr/local/bin/bicep
-          bicep --version
-          cd $CURRENT_DIR/bicep
+
+      # Adding a step to explicitly install the latest Bicep CLI because there is
+      # always a delay in updating Bicep CLI in the job runner environments.
+      # - name: Install the latest Bicep CLI
+      #   run: |
+      #     pwd
+      #     ls -l
+      #     CURRENT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+      #     PARENT_DIR=`dirname $CURRENT_DIR`
+      #     cd $PARENT_DIR
+      #     curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+      #     chmod +x ./bicep
+      #     sudo mv ./bicep /usr/local/bin/bicep
+      #     bicep --version
+      #     cd $CURRENT_DIR/bicep
 
       - name: Publish module
         env:
