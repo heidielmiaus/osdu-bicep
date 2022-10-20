@@ -338,9 +338,6 @@ jobs:
   Verify:
     name: Verify
     runs-on: ubuntu-latest
-    permissions:
-      id-tokens: write
-      contents: read
     needs: [Validate, Deploy]
     env:
       RESOURCE_GROUP: ${{ needs.Validate.outputs.RESOURCEGROUP }}
