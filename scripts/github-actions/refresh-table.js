@@ -34,9 +34,13 @@ async function generateModulesTable(axios, fs, path, core) {
   const tagsResponse = await axios.get(tagsUrl);
   const tags = tagsResponse.data;
 
+  console.log(moduleGroups);
+
   for (const moduleGroup of moduleGroups) {
     var moduleGroupPath = path.join("modules", moduleGroup);
-    var moduleNames = getSubdirNames(fs, moduleGroupPath);
+    console.log(moduleGroupPath);
+    console.log(moduleGroup);
+    var moduleNames = getSubdirNames(fs, moduleGroup);
 
     for (const moduleName of moduleNames) {
       const modulePath = `${moduleGroup}/${moduleName}`;
