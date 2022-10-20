@@ -31,10 +31,13 @@ jobs:
       # always a delay in updating Bicep CLI in the job runner environments.
       - name: Install the latest Bicep CLI
         run: |
+          CURRENT=$(pwd) 
+          cd ..
           curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x ./bicep
           sudo mv ./bicep /usr/local/bin/bicep
           bicep --version
+          cd $CURRENT
 
       - name: Install Bicep registry module tool
         run: dotnet tool install --global Azure.Bicep.RegistryModuleTool
@@ -57,7 +60,7 @@ jobs:
           add: "."
 
   validate-non-module-files:
-    name: Validate Javascript
+    name: Validate Formatting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
