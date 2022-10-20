@@ -280,9 +280,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Validate]
     environment: ${{ github.event.inputs.environment }}
-    permissions:
-      id-tokens: write
-      contents: read
     env:
       RESOURCE_GROUP: ${{ needs.Validate.outputs.RESOURCEGROUP }}
       REGION: ${{ needs.Validate.outputs.REGION }}
