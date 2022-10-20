@@ -75,4 +75,4 @@ jobs:
       - name: Publish module
         env:
           SERVER: ${{ secrets.AZURE_REGISTRY_SERVER }}
-        run: bicep publish "modules/${{ steps.parse-tag.outputs.module_path }}/main.json" --target "br:osdubicep.azurecr.io/bicep/modules/${{ steps.parse-tag.outputs.module_path }}:${{ steps.parse-tag.outputs.version }}"
+        run: bicep publish "${{ steps.parse-tag.outputs.module_path }}/main.json" --target "br:osdubicep.azurecr.io/${{ steps.parse-tag.outputs.module_path }}:${{ steps.parse-tag.outputs.version }}"
