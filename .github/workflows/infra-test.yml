@@ -87,6 +87,9 @@ jobs:
   Validate:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
+    permissions:
+      id-tokens: write
+      contents: read
     if: ${{ !github.event.pull_request.head.repo.fork }}
     outputs:
       RESOURCEGROUP: ${{ steps.params.outputs.RESOURCEGROUP}}
@@ -280,6 +283,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Validate]
     environment: ${{ github.event.inputs.environment }}
+    permissions:
+      id-tokens: write
+      contents: read
     env:
       RESOURCE_GROUP: ${{ needs.Validate.outputs.RESOURCEGROUP }}
       REGION: ${{ needs.Validate.outputs.REGION }}
@@ -338,6 +344,9 @@ jobs:
   Verify:
     name: Verify
     runs-on: ubuntu-latest
+    permissions:
+      id-tokens: write
+      contents: read
     needs: [Validate, Deploy]
     env:
       RESOURCE_GROUP: ${{ needs.Validate.outputs.RESOURCEGROUP }}
