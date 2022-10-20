@@ -67,7 +67,7 @@ jobs:
           pwd
           ls -l
           CURRENT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-          PARENT_DIR=`dirname $SCRIPT_DIR`
+          PARENT_DIR=`dirname $CURRENT_DIR`
           cd $PARENT_DIR
           curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x ./bicep
