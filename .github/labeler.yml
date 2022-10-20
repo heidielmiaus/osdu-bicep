@@ -1,6 +1,6 @@
 # Add 'helper-ui' to any changes within 'helper' folder or any subfolders
-helper-ui:
-  - helper/**/*
+module:
+  - bicep/modules/**/*
 
 # Add 'test' label to any change to *.spec.js files
 test:
