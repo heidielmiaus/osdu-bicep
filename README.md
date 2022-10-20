@@ -1,14 +1,16 @@
-# Project
+# OSDU Bicep
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This project is used to host Bicep infrastructure that can be used in deploying OSDU on Azure.
 
-As the maintainer of this project, please make a few updates:
+## Project Principals
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+The guiding principal we have with this project is to focus on the the *downstream use* of the project (see [releases](https://github.com/azure/osdu-bicep/releases))  The goal is to work on infrastructure in a manner that other components can consume infrastructure as code. As such, these are our specific practices.
+
+1. Deploy all components through a single, modular, idempotent bicep template Converge on a single bicep template, which can easily be consumed
+2. Provide best-practice defaults, then use parameters for flagging on additional options.
+3. Minimize "manual" steps for ease of automation
+4. Maintain quality through validation & CI/CD pipelines
+
 
 ## Contributing
 

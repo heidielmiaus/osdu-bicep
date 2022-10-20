@@ -1,0 +1,29 @@
+{
+  "name": "osdu-bicep",
+  "version": "1.0.0",
+  "description": "Bicep modules for OSDU",
+  "private": true,
+  "repository": "azure/osdu-bicep",
+  "keywords": [
+    "Bicep"
+  ],
+  "author": "The Bicep Registry Module Authors (https://github.com/azure/osdu-bicep/graphs/contributors)",
+  "license": "MIT",
+  "bugs": "https://github.com/azure/osdu-bicep/issues",
+  "homepage": "https://github.com/azure/osdu-bicep#readme",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prettier:check": "prettier --check .",
+    "prettier": "prettier --write ."
+  },
+  "devDependencies": {
+    "@actions/core": "^1.9.1",
+    "@actions/github": "^5.0.0",
+    "axios": "^0.27.2",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "markdown-table": "^3.0.2",
+    "prettier": "^2.5.1"
+  }
+}
