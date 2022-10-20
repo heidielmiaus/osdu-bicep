@@ -47,7 +47,7 @@ async function generateModulesTable(axios, fs, path, core) {
         const module = `\`${modulePath}\``;
         const versionBadge = getVersionBadge(modulePath, latestVersion);
 
-        const moduleRootUrl = `https://github.com/azure/osdu-bicep/blob/main/modules/${modulePath}`;
+        const moduleRootUrl = `https://github.com/azure/osdu-bicep/blob/main/bicep/modules/${modulePath}`;
         const codeLink = `[🦾 Code](${moduleRootUrl}/main.bicep)`;
         const readmeLink = `[📃 Readme](${moduleRootUrl}/README.md)`;
         const docs = `${codeLink} ｜ ${readmeLink}`;
