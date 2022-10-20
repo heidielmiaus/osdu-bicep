@@ -73,7 +73,7 @@ jobs:
           chmod +x ./bicep
           sudo mv ./bicep /usr/local/bin/bicep
           bicep --version
-          cd $CURRENT_DIR
+          cd $CURRENT_DIR/bicep
 
       - name: Publish module
         env:
