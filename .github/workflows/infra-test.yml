@@ -87,9 +87,6 @@ jobs:
   Validate:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-    permissions:
-      id-tokens: write
-      contents: read
     if: ${{ !github.event.pull_request.head.repo.fork }}
     outputs:
       RESOURCEGROUP: ${{ steps.params.outputs.RESOURCEGROUP}}
