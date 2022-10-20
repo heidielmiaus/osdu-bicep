@@ -20,7 +20,7 @@ Below is a table containing all published modules. Each version badge shows the 
 
 | Module    |  Version                  |   Docs                           |
 | :-------- | ------------------------: | -------------------------------: |
-| `public/user-managed-identity` | <a href="https://github.com/azure/osdubicep/releases/tag/public/user-managed-identity/1.0.1"><image src="https://img.shields.io/badge/osdubicep-1.0.1-blue"></a> | [🦾 Code](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/main.bicep) ｜ [📃 Readme](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/README.md) | # OSDU Bicep |
+| `public/user-managed-identity` | <a href="https://github.com/azure/osdu-bicep/releases/tag/public/user-managed-identity/1.0.1"><image src="https://img.shields.io/badge/osdubicep-1.0.1-blue"></a> | [🦾 Code](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/main.bicep) ｜ [📃 Readme](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/README.md) | # OSDU Bicep |
 
 <!-- End Module Table -->
 
