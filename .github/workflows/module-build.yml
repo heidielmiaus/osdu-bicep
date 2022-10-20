@@ -11,7 +11,7 @@ on:
 jobs:
   get-module-to-validate:
     name: Get Changed Module
-    uses: ./.github/workflows/detect-changes.yml
+    uses: ./.github/workflows/job-module-changes.yml
 
   validate-module-files:
     name: Validate Module

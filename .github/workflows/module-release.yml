@@ -10,7 +10,7 @@ on:
 jobs:
   get-module-to-publish:
     name: Get Module
-    uses: ./.github/workflows/detect-changes.yml
+    uses: ./.github/workflows/job-module-changes.yml
 
   create-tag:
     name: Create Tag
@@ -58,7 +58,7 @@ jobs:
     name: Publish Module
     needs: create-tag
     if: needs.create-tag.outputs.tag
-    uses: ./.github/workflows/publish-module.yml
+    uses: ./.github/workflows/job-module-publish.yml
     with:
       tag: ${{ needs.create-tag.outputs.tag }}
     secrets:
