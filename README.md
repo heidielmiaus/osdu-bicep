@@ -4,13 +4,12 @@ This project is used to host Bicep infrastructure that can be used in deploying 
 
 ## Project Principals
 
-The guiding principal we have with this project is to focus on the the *downstream use* of the project (see [releases](https://github.com/azure/osdu-bicep/releases))  The goal is to work on infrastructure in a manner that other components can consume infrastructure as code. As such, these are our specific practices.
+The guiding principal we have with this project is to focus on the the _downstream use_ of the project (see [releases](https://github.com/azure/osdu-bicep/releases)) The goal is to work on infrastructure in a manner that other components can consume infrastructure as code. As such, these are our specific practices.
 
 1. Deploy all components through a single, modular, idempotent bicep template Converge on a single bicep template, which can easily be consumed
 2. Provide best-practice defaults, then use parameters for flagging on additional options.
 3. Minimize "manual" steps for ease of automation
 4. Maintain quality through validation & CI/CD pipelines
-
 
 ## Modules
 
@@ -20,11 +19,9 @@ Below is a table containing all published modules. Each version badge shows the 
 
 <!-- End Module Table -->
 
-
-
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
@@ -38,8 +35,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
+trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.

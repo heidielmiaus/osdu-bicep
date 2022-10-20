@@ -2,11 +2,9 @@
 
 A number of CI workflows are leveraged in this repo to test the bicep files to ensure quality is high. The attempt is to use good patterns and practices for working with Infrastucture as Code.
 
-
 ### Pre-deploy Validation
 
 It's essential to catch as many problems before a single resource is deployed to real infrastructure. There are a lot of tools and techniques that can be leveraged to catch functional or syntactical problems depending on your authoring language and platform.
-
 
 #### PSRule for Azure
 
@@ -68,10 +66,8 @@ Documentation on the main `Readme.md` for the modules contains a table with all 
 
 ## Solution actions used in this repo
 
-
 ## Misc actions used in this repo
 
 ### Markdown
 
-This is a super simple action that runs a *spell check* on any `.md` files in the repo. It's useful to catch simple mistakes from quick edits or other peoples PR's. This action is also part of the branch policy for merging to main.
-
+This is a super simple action that runs a _spell check_ on any `.md` files in the repo. It's useful to catch simple mistakes from quick edits or other peoples PR's. This action is also part of the branch policy for merging to main.

@@ -13,7 +13,6 @@ jobs:
       id-token: write
       contents: write
     steps:
-
       - name: Github Checkout
         uses: actions/checkout@v2
 
