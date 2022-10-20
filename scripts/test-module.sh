@@ -23,7 +23,7 @@ PARAMETERS="$PARENT_DIR/modules/platform/$MODULE/test/parameters.json"
 
 # Retrieve Resource Group Name
 if [ -z $RESOURCE_GROUP_NAME ]; then
-  RESOURCE_GROUP_NAME="osdubicep-ci"
+  RESOURCE_GROUP_NAME="osdubicep-module-testing"
 fi
 
 # Check if Azure CLI Logged in, if not prompt to login then set default values.

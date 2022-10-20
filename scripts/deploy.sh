@@ -3,8 +3,8 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PARENT_DIR=`dirname $SCRIPT_DIR`
 
-AZURE_LOCATION="centralus"
-PREFIX="iac"
+AZURE_LOCATION="southcentralus"
+PREFIX="osdu"
 
 WHAT_IF=0
 VALIDATE_TEMPLATE=1
@@ -15,7 +15,7 @@ PARAMETERS="$SCRIPT_DIR/parameters.json"
 
 # Retrieve Resource Group Name
 if [ -z $RESOURCE_GROUP_NAME ]; then
-  RESOURCE_GROUP_NAME="osdu-bicep-testing"
+  RESOURCE_GROUP_NAME="osdubicep-testing"
 fi
 
 # Check if Azure CLI Logged in, if not prompt to login then set default values.

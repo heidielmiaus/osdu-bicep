@@ -68,7 +68,7 @@ We anticipate the use of the Develop branch is primarily just for use with Forks
 
 ## Releases
 
-Releases are used to capture a tested release (all stages, not just Validation), where there are significant new features or bugfixes. The release does not include CI Action files, just an azuredeploy.json and the Azure Managed App (AMA) zip.
+Releases are used to capture a tested release (all stages, not just Validation), where there are significant new features or bugfixes. The release does not include CI Action files, just an azuredeploy.json.
 
 
 ### Dev Container / Codespaces

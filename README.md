@@ -12,6 +12,16 @@ The guiding principal we have with this project is to focus on the the *downstre
 4. Maintain quality through validation & CI/CD pipelines
 
 
+## Modules
+
+Below is a table containing all published modules. Each version badge shows the latest version of the corresponding module.
+
+<!-- Begin Module Table -->
+
+<!-- End Module Table -->
+
+
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

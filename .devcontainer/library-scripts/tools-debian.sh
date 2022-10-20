@@ -4,8 +4,6 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 #
-# Docs:https://community.opengroup.org/osdu/platform/deployment-and-operations/infra-azure-provisioning
-# Maintainer: Microsoft OSDU on Azure Teams
 #
 # Syntax: ./k8s-tools-debian.sh
 

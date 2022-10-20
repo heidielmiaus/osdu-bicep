@@ -62,11 +62,11 @@ async function generateModulesTable(axios, fs, path, core) {
 
   function getVersionBadge(modulePath, latestVersion) {
     if (latestVersion === undefined) {
-      const badgeUrl = `https://img.shields.io/badge/managed--platform-unknown-red`;
+      const badgeUrl = `https://img.shields.io/badge/osdubicep-unknown-red`;
       return `<image src="${badgeUrl}">`;
     } else {
-      const tagUrl = `https://github.com/azure/osdu-bicep/releases/tag/${modulePath}/${latestVersion}`;
-      const badgeUrl = `https://img.shields.io/badge/managed--platform-${latestVersion}-blue`;
+      const tagUrl = `https://github.com/azure/osdubicep/releases/tag/${modulePath}/${latestVersion}`;
+      const badgeUrl = `https://img.shields.io/badge/osdubicep-${latestVersion}-blue`;
       return `<a href="${tagUrl}"><image src="${badgeUrl}"></a>`;
     }
   }
