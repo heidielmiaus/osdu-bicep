@@ -1,6 +1,6 @@
 on: [pull_request, workflow_dispatch]
 
-name: Documentation
+name: Auto - Documentation Check
 jobs:
   SpellCheck:
     runs-on: ubuntu-latest

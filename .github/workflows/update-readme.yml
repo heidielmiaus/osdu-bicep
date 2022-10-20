@@ -1,4 +1,4 @@
-name: Action - Update Readme
+name: Manual - Update Module List
 
 on:
   workflow_dispatch:
