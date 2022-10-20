@@ -42,7 +42,7 @@ async function createTag({
     `Detected version update: ${red}${baseVersion} (old) ${reset}-> ${green}${headVersion} (new).`
   );
 
-  const modulePath = moduleDir.substring(moduleDir.indexOf("/") + 1);
+  const modulePath = moduleDir.substring(moduleDir.indexOf("/") + 2);
   const tag = `${modulePath}/${headVersion}`;
 
   await github.rest.git.createRef({
