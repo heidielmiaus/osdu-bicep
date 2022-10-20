@@ -2,12 +2,25 @@
 
 This project is used to host Bicep infrastructure that can be used in deploying OSDU on Azure.
 
+## Project Principals
+
+The guiding principal we have with this project is to focus on the the _downstream use_ of the project (see [releases](https://github.com/azure/osdu-bicep/releases)) The goal is to work on infrastructure in a manner that other components can consume infrastructure as code. As such, these are our specific practices.
+
+1. Deploy all components through a single, modular, idempotent bicep template Converge on a single bicep template, which can easily be consumed
+2. Provide best-practice defaults, then use parameters for flagging on additional options.
+3. Minimize "manual" steps for ease of automation
+4. Maintain quality through validation & CI/CD pipelines
+
 ## Modules
 
 Below is a table containing all published modules. Each version badge shows the latest version of the corresponding module. You may click on a version badge to check all available versions for a module.
 
+
 <!-- Begin Module Table -->
 
+| Module    |  Version                  |   Docs                           |
+| :-------- | ------------------------: | -------------------------------: |
+| `public/user-managed-identity` | <a href="https://github.com/azure/osdubicep/releases/tag/public/user-managed-identity/1.0.1"><image src="https://img.shields.io/badge/osdubicep-1.0.1-blue"></a> | [🦾 Code](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/main.bicep) ｜ [📃 Readme](https://github.com/azure/osdu-bicep/blob/main/bicep/modules/public/user-managed-identity/README.md) | # OSDU Bicep |
 
 <!-- End Module Table -->
 
