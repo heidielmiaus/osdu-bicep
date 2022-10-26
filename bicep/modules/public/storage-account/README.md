@@ -41,10 +41,10 @@ This module deploys an Azure Storage Account.
 A simple standard storage account.
 
 ```bicep
-module storage '../main.bicep' = {
+module example '../main.bicep' = {
   name: 'storage_account'
   params: {
-    resourceName: 'osdu'
+    resourceName: 'sa${unique(resourceGroup().name)}'
     location: 'southcentralus'
     sku: 'Standard_LRS'
   }
@@ -56,10 +56,10 @@ module storage '../main.bicep' = {
 A storage account with Private IP Links enabled, diagnostics enabled with a role assignment.
 
 ```bicep
-module storage '../main.bicep' = {
+module example '../main.bicep' = {
   name: 'storage_account'
   params: {
-    resourceName: 'osdu'
+    resourceName: 'sa${unique(resourceGroup().name)}'
     location: 'southcentralus'
     sku: 'Standard_LRS'
     privateLinkSettings:{

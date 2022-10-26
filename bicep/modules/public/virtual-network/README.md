@@ -46,7 +46,7 @@ This module deploys a virtual network.
 A simple network with a role assignment.
 
 ```bicep
-module vnet 'br:osdubicep.azurecr.io/bicep/modules/public/virtual-network:1.0.1' = {
+module example 'br:osdubicep.azurecr.io/bicep/modules/public/virtual-network:1.0.1' = {
   name: 'azure_vnet'
   params: {
     resourceName: `vnet-${unique(resourceGroup().name)}'
@@ -80,19 +80,11 @@ module vnet 'br:osdubicep.azurecr.io/bicep/modules/public/virtual-network:1.0.1'
 A hub spoke network sample.
 
 ```bicep
-@description('Hub Network Location.')
-param hubLocation string = resourceGroup().location
-
-@description('Spoke Network Location.')
-param spokeLocation string = resourceGroup().location
-
-
-//  Module --> Create Virtual Network
-module vnet '../main.bicep' = {
+module hub_vnet 'br:osdubicep.azurecr.io/bicep/modules/public/virtual-network:1.0.1' = {
   name: 'azure_vnet_hub'
   params: {
     resourceName: 'hub'
-    location: hubLocation
+    location: 'southcentralus'
     newOrExistingNSG: 'none'
     addressPrefixes: [
       '10.0.0.0/16'
@@ -118,7 +110,7 @@ module spoke_vnet '../main.bicep' = {
   name: 'azure_vnet_spoke'
   params: {
     resourceName: 'spoke'
-    location: spokeLocation
+    location: 'southcentralus'
     addressPrefixes: [
       '10.1.0.0/16'
     ]
@@ -138,7 +130,7 @@ module spoke_vnet '../main.bicep' = {
     newOrExistingNSG: 'new'
     virtualNetworkPeerings: [
       {
-        remoteVirtualNetworkId: vnet.outputs.id
+        remoteVirtualNetworkId: hub_vnet.outputs.id
         allowForwardedTraffic: true
         allowGatewayTransit: false
         allowVirtualNetworkAccess: true
