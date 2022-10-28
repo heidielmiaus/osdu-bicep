@@ -64,7 +64,7 @@ async function generateModulesTable(axios, fs, path, core) {
       const badgeUrl = `https://img.shields.io/badge/osdubicep-unknown-red`;
       return `<image src="${badgeUrl}">`;
     } else {
-      const tagUrl = `https://github.com/azure/osdubicep/releases/tag/${modulePath}/${latestVersion}`;
+      const tagUrl = `https://github.com/azure/osdu-bicep/releases/tag/${modulePath}/${latestVersion}`;
       const badgeUrl = `https://img.shields.io/badge/osdubicep-${latestVersion}-blue`;
       return `<a href="${tagUrl}"><image src="${badgeUrl}"></a>`;
     }
