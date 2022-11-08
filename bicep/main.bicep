@@ -27,7 +27,7 @@ param applicationClientSecret string
 // Network Blade 
 /////////////////
 @description('Name of the Virtual Network')
-param virtualNetworkName string = 'ctlplane'
+param virtualNetworkName string = 'commonresources'
 
 @description('Boolean indicating whether the VNet is new or existing')
 param virtualNetworkNewOrExisting string = 'new'
