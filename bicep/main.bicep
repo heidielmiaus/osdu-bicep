@@ -209,25 +209,6 @@ module keyvault 'br:osdubicep.azurecr.io/public/azure-keyvault:1.0.3' = {
           ]
         }
       }
-      {
-        principalId: applicationId
-        permissions: {
-          secrets: [
-            'get'
-            'list'
-          ]
-          certificates: [
-            'get'
-            'update'
-            'import'
-          ]
-          keys: [
-            'get'
-            'encrypt'
-            'decrypt'
-          ]
-        }
-      }
     ]
 
     // Configure Secrets
