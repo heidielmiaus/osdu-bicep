@@ -8,6 +8,7 @@ on:
   push:
     paths:
       - "bicep/main.bicep"
+      - "bicep/modules_bicep/**/*"
       - "!bicep/modules/**/*"
       - ".github/workflows_dep/parameters.json"
 
@@ -15,6 +16,7 @@ on:
     branches: [main]
     paths:
       - "bicep/**/*"
+      - "bicep/modules_bicep/**/*"
       - "!bicep/modules/**/*"
       - ".github/workflows_dep/parameters.json"
 
@@ -220,7 +222,7 @@ jobs:
         with:
           azcliversion: ${{ env.AZCLIVERSION }}
           inlineScript: |
-            PARAMOVERRIDES="location=${{ steps.params.outputs.REGION}}"
+            PARAMOVERRIDES="location=${{ steps.params.outputs.REGION }}"
             echo $PARAMOVERRIDES
             echo "::set-output name=PARAMOVERRIDES::$PARAMOVERRIDES"
 
@@ -232,7 +234,7 @@ jobs:
           azcliversion: ${{ env.AZCLIVERSION }}
           inlineScript: |
             DEPNAME='Dep${{ github.run_number }}'
-            PARAMS='${{ steps.imperitiveparams.outputs.PARAMOVERRIDES}}'
+            PARAMS='${{ steps.imperitiveparams.outputs.PARAMOVERRIDES }} applicationClientId=${{ secrets.STAMP_CLIENT_ID }} applicationClientSecret=${{ secrets.STAMP_CLIENT_SECRET }} applicationId=${{ secrets.STAMP_APPLICATION_OID }}'
             echo $PARAMS
             az deployment group validate -f bicep/main.bicep -g $RESOURCE_GROUP -p ${{ env.ParamFilePath }} -p $PARAMS --verbose
 
@@ -247,7 +249,7 @@ jobs:
           inlineScript: |
             DEPNAME='${{ env.DEPNAME }}'
             WHATIFPATH='whatif.json'
-            PARAMS='${{ steps.imperitiveparams.outputs.PARAMOVERRIDES}}'
+            PARAMS='${{ steps.imperitiveparams.outputs.PARAMOVERRIDES }} applicationClientId=${{ secrets.STAMP_CLIENT_ID }} applicationClientSecret=${{ secrets.STAMP_CLIENT_SECRET }} applicationId=${{ secrets.STAMP_APPLICATION_OID }}'
             az deployment group what-if --no-pretty-print -f bicep/main.bicep -g $RESOURCE_GROUP -p ${{ env.ParamFilePath }} -p $PARAMS > $WHATIFPATH
             if [[ -f $WHATIFPATH ]]
             then
@@ -327,7 +329,7 @@ jobs:
           azcliversion: ${{ env.AZCLIVERSION }}
           inlineScript: |
             DEPNAME='Dep${{ github.run_number }}'
-            PARAMS="location=$REGION"
+            PARAMS="location=$REGION applicationClientId=${{ secrets.STAMP_CLIENT_ID }} applicationClientSecret=${{ secrets.STAMP_CLIENT_SECRET }} applicationId=${{ secrets.STAMP_APPLICATION_OID }}'"
             az deployment group create -f bicep/main.bicep -g $RESOURCE_GROUP -p ${{ env.ParamFilePath }} -p $PARAMS --name $DEPNAME --verbose
             az deployment operation group list --resource-group $RESOURCE_GROUP --name $DEPNAME
 

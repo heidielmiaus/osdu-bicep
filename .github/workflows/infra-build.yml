@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - "bicep/*"
+      - "bicep/modules_bicep/**/*"
       - "!bicep/modules/**"
 
   workflow_dispatch: #Manual execution will be good for debugging
@@ -57,7 +58,6 @@ jobs:
           {
                 New-Item -ItemType Directory -Force -Path $compiledir
           }
-
           /home/runner/.azure/bin/bicep build bicep/main.bicep --outdir $compiledir
 
       - uses: actions/checkout@v2
