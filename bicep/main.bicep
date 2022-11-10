@@ -1,13 +1,14 @@
 /*
   This is the main bicep entry file.
 
-  11.8.22: Common Resources
+  11.10.22: Common, Partition and Services
 --------------------------------
-  - Established the Common Resources
+  - Established the three layers.
 */
 
 @description('Specify the Azure region to place the application definition.')
 param location string = resourceGroup().location
+
 
 /////////////////
 // Identity Blade 
@@ -27,7 +28,7 @@ param applicationClientSecret string
 // Network Blade 
 /////////////////
 @description('Name of the Virtual Network')
-param virtualNetworkName string = 'commonresources'
+param virtualNetworkName string = 'central-spoke-vnet'
 
 @description('Boolean indicating whether the VNet is new or existing')
 param virtualNetworkNewOrExisting string = 'new'
@@ -36,16 +37,18 @@ param virtualNetworkNewOrExisting string = 'new'
 param virtualNetworkAddressPrefix string = '10.1.0.0/16'
 
 @description('Resource group of the VNet')
-param virtualNetworkResourceGroup string = ''
+param virtualNetworkResourceGroup string = 'osdu-network'
 
 @description('New or Existing subnet Name')
-param subnetName string = 'NodeSubnet'
+param subnetName string = 'clustersubnet'
 
 @description('Subnet address prefix')
-param subnetAddressPrefix string = '10.1.0.0/24'
+param subnetAddressPrefix string = '10.1.0.0/20'
 
-@description('Feature Flag on Private Link')
-param enablePrivateLink bool = false
+
+///////////////////////
+// Configuration Blade 
+///////////////////////
 
 @description('List of Data Partitions')
 param partitions array = [
@@ -54,10 +57,18 @@ param partitions array = [
   }
 ]
 
+@allowed([
+  'CostOptimised'
+  'Standard'
+  'HighSpec'
+])
+@description('The Cluster Sizing')
+param ClusterSize string = 'Standard'
 
-/////////////////
-// Security Blade 
-/////////////////
+@description('Feature Flag on Private Link')
+// param enablePrivateLink bool = true // TODO: Enable when Private Link is ready
+var enablePrivateLink = false
+
 @description('Optional. Customer Managed Encryption Key.')
 param cmekConfiguration object = {
   kvUrl: ''
@@ -144,173 +155,188 @@ var partitionLayerConfig = {
   }
   database: {
     name: 'osdu-db'
-    throughput: 12000
+    CostOptimised : {
+      throughput: 2000
+    }
+    Standard: {
+      throughput: 4000
+    }
+    HighSpec: {
+      throughput: 12000
+    }
     backup: 'Continuous'
-    collections: [
+    containers: [
       {
         name: 'LegalTag'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'StorageRecord'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'StorageSchema'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/kind'
         ]
       }
       {
         name: 'TenantInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'UserInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'Authority'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'EntityType'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'SchemaInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/partitionId'
         ]
       }
       {
         name: 'Source'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'RegisterAction'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/dataPartitionId'
         ]
       }
       {
         name: 'RegisterDdms'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/dataPartitionId'
         ]
       }
       {
         name: 'RegisterSubscription'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/dataPartitionId'
         ]
       }
       {
         name: 'IngestionStrategy'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/workflowType'
         ]
       }
       {
         name: 'RelationshipStatus'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'MappingInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/sourceSchemaKind'
         ]
       }
       {
         name: 'FileLocationInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/id'
         ]
       }
       {
         name: 'WorkflowCustomOperatorInfo'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/operatorId'
         ]
       }
       {
         name: 'WorkflowV2'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/partitionKey'
         ]
       }
       {
         name: 'WorkflowRunV2'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/partitionKey'
         ]
       }
       {
         name: 'WorkflowCustomOperatorV2'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/partitionKey'
         ]
       }
       {
         name: 'WorkflowTasksSharingInfoV2'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/partitionKey'
         ]
       }
       {
         name: 'Status'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/correlationId'
         ]
       }
       {
         name: 'DataSetDetails'
-        automaticIndexing: true
-        partitionKeyPaths: [
+        kind: 'Hash'
+        paths: [
           '/correlationId'
         ]
       }
     ]
   }
+}
 
+/////////////////////////////////
+// Service Resources Configuration 
+/////////////////////////////////
+var serviceLayerConfig = {
+  name: 'service'
+  displayName: 'Service Resources'
 }
 
 
@@ -492,14 +518,14 @@ module keyvaultSecrets './modules_private/keyvault_secrets.bicep' = {
 */
 
 var vnetId = {
-  new: resourceId('Microsoft.Network/virtualNetworks', virtualNetworkName)
+  new: network.outputs.id
   existing: resourceId(virtualNetworkResourceGroup, 'Microsoft.Network/virtualNetworks', virtualNetworkName)
 }
 
 var subnetId = '${vnetId[virtualNetworkNewOrExisting]}/subnets/${subnetName}'
 
 var privateLinkSettings = enablePrivateLink ? {
-  vnetId: vnetId
+  vnetId: vnetId[virtualNetworkNewOrExisting]
   subnetId: subnetId
 } : {
   subnetId: '1' // 1 is don't use.
@@ -662,7 +688,7 @@ module configStorage 'br:osdubicep.azurecr.io/public/storage-account:1.0.5' = {
  \______| | _| `._____/__/     \__\ | _|      |__|  |__| 
 */
 
-module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = {
+module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = {
   name: '${commonLayerConfig.name}-cosmos-db'
   params: {
     resourceName: commonLayerConfig.name
@@ -713,7 +739,7 @@ module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = {
       '${stampIdentity.outputs.id}': {}
     }
     defaultIdentity: !empty(cmekConfiguration.identityId) ? cmekConfiguration.identityId : ''
-    kvKeyUri: !empty(cmekConfiguration.kvUrl) && !empty(cmekConfiguration.keyName) ? '${cmekConfiguration.kvUrl}/${cmekConfiguration.keyName}' : ''
+    kvKeyUri: !empty(cmekConfiguration.kvUrl) && !empty(cmekConfiguration.keyName) ? '${cmekConfiguration.kvUrl}/keys/${cmekConfiguration.keyName}' : ''
 
     // Persist Secrets to Vault
     keyVaultName: keyvault.outputs.name
@@ -730,8 +756,7 @@ module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = {
 // |  |_)  |  /  ^  \    |  |_)  |   `---|  |----`|  | `---|  |----`|  | |  |  |  | |   \|  |    |   (----`
 // |   ___/  /  /_\  \   |      /        |  |     |  |     |  |     |  | |  |  |  | |  . `  |     \   \    
 // |  |     /  _____  \  |  |\  \----.   |  |     |  |     |  |     |  | |  `--'  | |  |\   | .----)   |   
-// | _|    /__/     \__\ | _| `._____|   |__|     |__|     |__|     |__|  \______/  |__| \__| |_______/    
-                                     
+// | _|    /__/     \__\ | _| `._____|   |__|     |__|     |__|     |__|  \______/  |__| \__| |_______/                                 
 // */
 
 module partitionStorage 'br:osdubicep.azurecr.io/public/storage-account:1.0.5' = [for (partition, index) in partitions: {
@@ -779,7 +804,7 @@ module partitionStorage 'br:osdubicep.azurecr.io/public/storage-account:1.0.5' =
   }
 }]
 
-module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = [for (partition, index) in partitions: {
+module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = [for (partition, index) in partitions: {
   name: '${partitionLayerConfig.name}-cosmos-db-${index}'
   params: {
     resourceName: 'data${index}${uniqueString(partition.name)}'
@@ -798,11 +823,11 @@ module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = [for (part
     // Configure Service
     sqlDatabases: [
       {
-        name: 'db01'
-        containers: []
+        name: partitionLayerConfig.database.name
+        containers: partitionLayerConfig.database.containers
       }
     ]
-    throughput: partitionLayerConfig.database.throughput
+    maxThroughput: partitionLayerConfig.database[ClusterSize].throughput
     backupPolicyType: partitionLayerConfig.database.backup
 
     // Assign RBAC
@@ -829,7 +854,7 @@ module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = [for (part
       '${stampIdentity.outputs.id}': {}
     }
     defaultIdentity: !empty(cmekConfiguration.identityId) ? cmekConfiguration.identityId : ''
-    kvKeyUri: !empty(cmekConfiguration.kvUrl) && !empty(cmekConfiguration.keyName) ? '${cmekConfiguration.kvUrl}/${cmekConfiguration.keyName}' : ''
+    kvKeyUri: !empty(cmekConfiguration.kvUrl) && !empty(cmekConfiguration.keyName) ? '${cmekConfiguration.kvUrl}/keys/${cmekConfiguration.keyName}' : ''
 
     // Persist Secrets to Vault
     keyVaultName: keyvault.outputs.name
@@ -838,3 +863,45 @@ module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.5' = [for (part
     databaseConnectionStringSecretName: '${partition.name}-${partitionLayerConfig.secrets.cosmosConnectionString}'
   }
 }]
+
+
+/*
+ __  ___  __    __  .______    _______ .______      .__   __.  _______ .___________. _______     _______.
+|  |/  / |  |  |  | |   _  \  |   ____||   _  \     |  \ |  | |   ____||           ||   ____|   /       |
+|  '  /  |  |  |  | |  |_)  | |  |__   |  |_)  |    |   \|  | |  |__   `---|  |----`|  |__     |   (----`
+|    <   |  |  |  | |   _  <  |   __|  |      /     |  . `  | |   __|      |  |     |   __|     \   \    
+|  .  \  |  `--'  | |  |_)  | |  |____ |  |\  \----.|  |\   | |  |____     |  |     |  |____.----)   |   
+|__|\__\  \______/  |______/  |_______|| _| `._____||__| \__| |_______|    |__|     |_______|_______/    
+*/
+
+
+
+module cluster 'modules_private/aks_cluster.bicep' = {
+  name: '${serviceLayerConfig.name}-cluster'
+  params: {
+    // Basic Details
+    resourceName: serviceLayerConfig.name
+    location: location
+
+    // Assign Tags
+    tags: {
+      layer: serviceLayerConfig.displayName
+    }
+
+    aad_tenant_id: subscription().tenantId
+
+    // Configure Linking Items
+    subnetId: virtualNetworkNewOrExisting != 'new' ? subnetId : subnetId 
+    identityId: stampIdentity.outputs.id
+    workspaceId: logAnalytics.outputs.id
+
+    // Configure NodePools
+    ClusterSize: ClusterSize
+
+    // Configure Add Ons
+    enable_aad: true
+    workloadIdentityEnabled: true
+    keyvaultEnabled: true
+    fluxGitOpsAddon:false
+  }
+}
