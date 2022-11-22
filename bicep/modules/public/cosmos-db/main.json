@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "1505947001093913364"
+      "templateHash": "978576734673106142"
     }
   },
   "parameters": {
@@ -319,13 +319,6 @@
       "defaultValue": "",
       "metadata": {
         "description": "Optional. Customer Managed Encryption Key."
-      }
-    },
-    "isCrossTenant": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Optional. Indicates if the module is used in a cross tenant scenario. If true, a delegatedManagedIdentityResourceId must be included in roleAssignments."
       }
     },
     "privateLinkSettings": {
@@ -1211,7 +1204,7 @@
             "value": "[resourceId('Microsoft.DocumentDB/databaseAccounts', if(greater(length(variables('name')), 44), substring(variables('name'), 0, 44), variables('name')))]"
           },
           "delegatedManagedIdentityResourceId": {
-            "value": "[if(parameters('isCrossTenant'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
+            "value": "[if(contains(parameters('roleAssignments')[copyIndex()], 'delegatedManagedIdentityResourceId'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
           }
         },
         "template": {
