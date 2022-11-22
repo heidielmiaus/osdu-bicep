@@ -196,6 +196,9 @@ param metricsToEnable array = [
 @description('Optional. Customer Managed Encryption Key.')
 param kvKeyUri string = ''
 
+@description('Optional. Indicates if the module is used in a cross tenant scenario. If true, a delegatedManagedIdentityResourceId must be included in roleAssignments.')
+param crossTenant bool = false
+
 var name = 'dba-${replace(resourceName, '-', '')}${uniqueString(resourceGroup().id, resourceName)}'
 
 
@@ -383,7 +386,7 @@ module databaseaccount_rbac '.bicep/nested_rbac.bicep' = [for (roleAssignment, i
     roleDefinitionIdOrName: roleAssignment.roleDefinitionIdOrName
     principalType: contains(roleAssignment, 'principalType') ? roleAssignment.principalType : ''
     resourceId: databaseAccount.id
-    delegatedManagedIdentityResourceId: contains(roleAssignment, 'delegatedManagedIdentityResourceId') ? roleAssignment.delegatedManagedIdentityResourceId : ''
+    delegatedManagedIdentityResourceId: crossTenant ? roleAssignment.delegatedManagedIdentityResourceId : ''
   }
 }]
 
