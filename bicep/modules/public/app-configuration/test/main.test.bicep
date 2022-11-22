@@ -9,21 +9,24 @@ param resourceName string
 param location string = resourceGroup().location
 
 //  Module --> Create Resource
-module ac '../main.bicep' = {
-  name: 'azure_app_configuration'
+module app_config '../main.bicep' = {
+  name: 'azure_app_config'
   params: {
     resourceName: resourceName
     location: location
-    enableDeleteLock: true
-    configObjects: {
-      configs: [
-        {
-          key: 'myKey'
-          value: 'myValue'
+    
+    keyValues: [
+      // Simple Key Value Pair
+      {
+        name: 'AValue'
+        value: 'Hello World'
+        contentType: 'text/plain'
+        label: 'development'
+        tags: {
+          service: 'worker'
         }
-      ]
-    }
+      }
+
+    ]
   }
 }
-
-
