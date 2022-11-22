@@ -75,7 +75,7 @@ async function generateModulesTable(axios, fs, path, core) {
       const latestTag = tags
         .filter((tag) => tag.name.includes(module + "/"))
         .map((tag) => tag.name.split("/").pop())
-        .sort()
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric:true }))
         .pop();
       return latestTag;
     }
