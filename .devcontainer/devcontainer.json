@@ -26,6 +26,6 @@
   "remoteUser": "vscode",
   "features": {
     "node": "latest",
-    "dotnet": "latest"
+    "dotnet": "6"
   }
 }
