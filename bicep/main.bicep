@@ -76,6 +76,8 @@ param cmekConfiguration object = {
   identityId: ''
 }
 
+@description('Optional. Indicates if the application is used in a cross tenant scenario or not.')
+param crossTenant bool = false
 
 /////////////////////////////////
 // Common Resources Configuration 
@@ -688,7 +690,7 @@ module configStorage 'br:osdubicep.azurecr.io/public/storage-account:1.0.5' = {
  \______| | _| `._____/__/     \__\ | _|      |__|  |__| 
 */
 
-module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = {
+module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.15' = {
   name: '${commonLayerConfig.name}-cosmos-db'
   params: {
     resourceName: commonLayerConfig.name
@@ -724,6 +726,7 @@ module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = {
           applicationClientId
         ]
         principalType: 'ServicePrincipal'
+        delegatedManagedIdentityResourceId: stampIdentity.outputs.id
       }
     ]
 
@@ -746,6 +749,9 @@ module database 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = {
     databaseEndpointSecretName: commonLayerConfig.secrets.cosmosEndpoint
     databasePrimaryKeySecretName: commonLayerConfig.secrets.cosmosPrimaryKey
     databaseConnectionStringSecretName: commonLayerConfig.secrets.cosmosConnectionString
+
+    // Cross Tenant
+    crossTenant: crossTenant
   }
 }
 
@@ -804,7 +810,7 @@ module partitionStorage 'br:osdubicep.azurecr.io/public/storage-account:1.0.5' =
   }
 }]
 
-module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = [for (partition, index) in partitions: {
+module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.15' = [for (partition, index) in partitions: {
   name: '${partitionLayerConfig.name}-cosmos-db-${index}'
   params: {
     resourceName: 'data${index}${uniqueString(partition.name)}'
@@ -839,6 +845,7 @@ module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = [for (part
           applicationClientId
         ]
         principalType: 'ServicePrincipal'
+        delegatedManagedIdentityResourceId: stampIdentity.outputs.id
       }
     ]
 
@@ -861,6 +868,9 @@ module partitionDb 'br:osdubicep.azurecr.io/public/cosmos-db:1.0.7' = [for (part
     databaseEndpointSecretName: '${partition.name}-${partitionLayerConfig.secrets.cosmosEndpoint}'
     databasePrimaryKeySecretName: '${partition.name}-${partitionLayerConfig.secrets.cosmosPrimaryKey}'
     databaseConnectionStringSecretName: '${partition.name}-${partitionLayerConfig.secrets.cosmosConnectionString}'
+
+    // Cross Tenant
+    crossTenant: crossTenant
   }
 }]
 
