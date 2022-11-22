@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.11.1.770",
-      "templateHash": "16054411432728611400"
+      "version": "0.12.40.16777",
+      "templateHash": "1505947001093913364"
     }
   },
   "parameters": {
@@ -165,10 +165,6 @@
     },
     "capabilitiesToAdd": {
       "type": "array",
-      "defaultValue": [],
-      "metadata": {
-        "description": "Optional. List of Cosmos DB capabilities for the account."
-      },
       "allowedValues": [
         "EnableCassandra",
         "EnableTable",
@@ -176,7 +172,11 @@
         "EnableMongo",
         "DisableRateLimitingResponses",
         "EnableServerless"
-      ]
+      ],
+      "defaultValue": [],
+      "metadata": {
+        "description": "Optional. List of Cosmos DB capabilities for the account."
+      }
     },
     "backupPolicyType": {
       "type": "string",
@@ -276,7 +276,7 @@
     },
     "logsToEnable": {
       "type": "array",
-      "defaultValue": [
+      "allowedValues": [
         "DataPlaneRequests",
         "MongoRequests",
         "QueryRuntimeStatistics",
@@ -287,7 +287,7 @@
         "GremlinRequests",
         "TableApiRequests"
       ],
-      "allowedValues": [
+      "defaultValue": [
         "DataPlaneRequests",
         "MongoRequests",
         "QueryRuntimeStatistics",
@@ -304,10 +304,10 @@
     },
     "metricsToEnable": {
       "type": "array",
-      "defaultValue": [
+      "allowedValues": [
         "Requests"
       ],
-      "allowedValues": [
+      "defaultValue": [
         "Requests"
       ],
       "metadata": {
@@ -319,6 +319,13 @@
       "defaultValue": "",
       "metadata": {
         "description": "Optional. Customer Managed Encryption Key."
+      }
+    },
+    "isCrossTenant": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Optional. Indicates if the module is used in a cross tenant scenario. If true, a delegatedManagedIdentityResourceId must be included in roleAssignments."
       }
     },
     "privateLinkSettings": {
@@ -592,8 +599,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "7157754146262647090"
+              "version": "0.12.40.16777",
+              "templateHash": "5789135520885363959"
             }
           },
           "parameters": {
@@ -714,8 +721,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "9396199484594553158"
+                      "version": "0.12.40.16777",
+                      "templateHash": "1829598061318066046"
                     }
                   },
                   "parameters": {
@@ -908,8 +915,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "142069350192373083"
+              "version": "0.12.40.16777",
+              "templateHash": "8416228525020999434"
             }
           },
           "parameters": {
@@ -1030,8 +1037,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "12157261947712267574"
+                      "version": "0.12.40.16777",
+                      "templateHash": "15742394434995848140"
                     }
                   },
                   "parameters": {
@@ -1204,7 +1211,7 @@
             "value": "[resourceId('Microsoft.DocumentDB/databaseAccounts', if(greater(length(variables('name')), 44), substring(variables('name'), 0, 44), variables('name')))]"
           },
           "delegatedManagedIdentityResourceId": {
-            "value": "[if(contains(parameters('roleAssignments')[copyIndex()], 'delegatedManagedIdentityResourceId'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
+            "value": "[if(parameters('isCrossTenant'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
           }
         },
         "template": {
@@ -1213,8 +1220,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "3584409557580155732"
+              "version": "0.12.40.16777",
+              "templateHash": "12135009980237778821"
             }
           },
           "parameters": {
@@ -1349,7 +1356,7 @@
             "value": "[parameters('databaseEndpointSecretName')]"
           },
           "value": {
-            "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', if(greater(length(variables('name')), 44), substring(variables('name'), 0, 44), variables('name')))).documentEndpoint]"
+            "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', if(greater(length(variables('name')), 44), substring(variables('name'), 0, 44), variables('name'))), '2022-08-15').documentEndpoint]"
           }
         },
         "template": {
@@ -1358,8 +1365,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "7304298555457891820"
+              "version": "0.12.40.16777",
+              "templateHash": "11246040671701417422"
             }
           },
           "parameters": {
@@ -1448,8 +1455,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "7304298555457891820"
+              "version": "0.12.40.16777",
+              "templateHash": "11246040671701417422"
             }
           },
           "parameters": {
@@ -1538,8 +1545,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "7304298555457891820"
+              "version": "0.12.40.16777",
+              "templateHash": "11246040671701417422"
             }
           },
           "parameters": {
