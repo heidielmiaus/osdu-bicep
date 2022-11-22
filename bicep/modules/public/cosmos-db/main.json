@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "18062386774176591026"
+      "templateHash": "16054411432728611400"
     }
   },
   "parameters": {
@@ -1202,6 +1202,9 @@
           },
           "resourceId": {
             "value": "[resourceId('Microsoft.DocumentDB/databaseAccounts', if(greater(length(variables('name')), 44), substring(variables('name'), 0, 44), variables('name')))]"
+          },
+          "delegatedManagedIdentityResourceId": {
+            "value": "[if(contains(parameters('roleAssignments')[copyIndex()], 'delegatedManagedIdentityResourceId'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
           }
         },
         "template": {

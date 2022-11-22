@@ -383,6 +383,7 @@ module databaseaccount_rbac '.bicep/nested_rbac.bicep' = [for (roleAssignment, i
     roleDefinitionIdOrName: roleAssignment.roleDefinitionIdOrName
     principalType: contains(roleAssignment, 'principalType') ? roleAssignment.principalType : ''
     resourceId: databaseAccount.id
+    delegatedManagedIdentityResourceId: contains(roleAssignment, 'delegatedManagedIdentityResourceId') ? roleAssignment.delegatedManagedIdentityResourceId : ''
   }
 }]
 
