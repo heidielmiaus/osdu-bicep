@@ -23,6 +23,9 @@ param applicationClientId string
 @secure()
 param applicationClientSecret string
 
+@description('Optional: Specify the AD Users and/or Groups that can manage the cluster.')
+param clusterAdminIds array = []
+
 
 /////////////////
 // Network Blade 
@@ -339,6 +342,16 @@ var partitionLayerConfig = {
 var serviceLayerConfig = {
   name: 'service'
   displayName: 'Service Resources'
+  imageNames: [
+    'community.opengroup.org:5555/osdu/platform/system/partition/partition-v0-16-0:latest'
+    'community.opengroup.org:5555/osdu/platform/security-and-compliance/entitlements/entitlements-v0-16-0:latest'
+    'community.opengroup.org:5555/osdu/platform/security-and-compliance/legal/legal-v0-16-0:latest'
+    'community.opengroup.org:5555/osdu/platform/system/schema-service/schema-service-release-0-16:latest'
+    'community.opengroup.org:5555/osdu/platform/system/storage/storage-v0-16-1:latest'
+    'community.opengroup.org:5555/osdu/platform/system/file/file-v0-16-1:latest'
+    'community.opengroup.org:5555/osdu/platform/system/indexer-service/indexer-service-v0-16-0:latest'
+    'community.opengroup.org:5555/osdu/platform/system/search-service/search-service-v0-16-1:latest'
+  ]
 }
 
 
@@ -628,6 +641,16 @@ module registry 'br:osdubicep.azurecr.io/public/container-registry:1.0.2' = {
   }
 }
 
+// Import Images
+module acrImport 'modules_private/acr_import.bicep' = if (!empty(serviceLayerConfig.imageNames)) {
+  name: 'imageImport'
+  params: {
+    acrName: registry.outputs.name
+    location: location
+    images: serviceLayerConfig.imageNames
+  }
+}
+
 /*
      _______.___________.  ______   .______          ___       _______  _______ 
     /       |           | /  __  \  |   _  \        /   \     /  _____||   ____|
@@ -910,8 +933,31 @@ module cluster 'modules_private/aks_cluster.bicep' = {
 
     // Configure Add Ons
     enable_aad: true
+    admin_ids: clusterAdminIds
     workloadIdentityEnabled: true
     keyvaultEnabled: true
-    fluxGitOpsAddon:false
+    fluxGitOpsAddon:true
   }
+}
+
+
+//--------------Flux Config---------------
+@description('The Git Repository for the Gitops Configuration.')
+var fluxConfiguration = 'https://github.com/danielscholl/gitops-osdu-stamp'
+var fluxConfigRepoBranch = 'main'
+var fluxRepoPath = './clusters/osdu-stamp'
+
+module flux 'modules_private/flux_config.bicep' = {
+  name: '${serviceLayerConfig.name}-cluster-gitops'
+  params: {
+    aksName: cluster.outputs.name
+    aksFluxAddOnReleaseNamespace: cluster.outputs.fluxReleaseNamespace
+    fluxConfigName: 'osdu-stamp'
+    fluxConfigRepo: fluxConfiguration
+    fluxConfigRepoBranch: fluxConfigRepoBranch
+    fluxRepoPath: fluxRepoPath
+  }
+  dependsOn: [
+    cluster
+  ]
 }

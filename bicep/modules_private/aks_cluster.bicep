@@ -31,6 +31,9 @@ param tags object = {}
 @description('The ID of the Azure AD tenant')
 param aad_tenant_id string = ''
 
+@description('The ID of the Azure AD tenant')
+param admin_ids array = []
+
 @description('Specifies the tier of a managed cluster SKU: Paid or Free')
 @allowed([
   'Paid'
@@ -507,10 +510,11 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-08-03-preview' = {
 
     enableRBAC: true
     aadProfile: enable_aad ? {
-    managed: true
-    enableAzureRBAC: enableAzureRBAC
-    tenantID: aad_tenant_id
-  } : null
+      managed: true
+      enableAzureRBAC: enableAzureRBAC
+      tenantID: aad_tenant_id
+      adminGroupObjectIDs: admin_ids
+    } : null
 
     autoUpgradeProfile: {
       upgradeChannel: aksUpgradeChannel
@@ -593,12 +597,16 @@ output aksNodeResourceGroup string = aks.properties.nodeResourceGroup
 @description('Enable the Flux GitOps Operator')
 param fluxGitOpsAddon bool = false
 
-resource fluxAddon 'Microsoft.KubernetesConfiguration/extensions@2022-04-02-preview' = if(fluxGitOpsAddon) {
+resource fluxAddon 'Microsoft.KubernetesConfiguration/extensions@2022-07-01' = if(fluxGitOpsAddon) {
   name: 'flux'
   scope: aks
   properties: {
     extensionType: 'microsoft.flux'
     autoUpgradeMinorVersion: true
+    configurationSettings: {
+      'multiTenancy.enforce': 'false'
+    }
+
     releaseTrain: 'Stable'
     scope: {
       cluster: {
