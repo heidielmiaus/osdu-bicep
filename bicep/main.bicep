@@ -352,6 +352,11 @@ var serviceLayerConfig = {
     'community.opengroup.org:5555/osdu/platform/system/indexer-service/indexer-service-v0-16-0:latest'
     'community.opengroup.org:5555/osdu/platform/system/search-service/search-service-v0-16-1:latest'
   ]
+  gitops: {
+    url: 'https://github.com/danielscholl/gitops-sample-stamp'
+    branch: 'main'
+    path: './clusters/sample-stamp'
+  }
 }
 
 
@@ -942,20 +947,15 @@ module cluster 'modules_private/aks_cluster.bicep' = {
 
 
 //--------------Flux Config---------------
-@description('The Git Repository for the Gitops Configuration.')
-var fluxConfiguration = 'https://github.com/danielscholl/gitops-osdu-stamp'
-var fluxConfigRepoBranch = 'main'
-var fluxRepoPath = './clusters/osdu-stamp'
-
 module flux 'modules_private/flux_config.bicep' = {
   name: '${serviceLayerConfig.name}-cluster-gitops'
   params: {
     aksName: cluster.outputs.name
     aksFluxAddOnReleaseNamespace: cluster.outputs.fluxReleaseNamespace
     fluxConfigName: 'osdu-stamp'
-    fluxConfigRepo: fluxConfiguration
-    fluxConfigRepoBranch: fluxConfigRepoBranch
-    fluxRepoPath: fluxRepoPath
+    fluxConfigRepo: serviceLayerConfig.gitops.url
+    fluxConfigRepoBranch: serviceLayerConfig.gitops.branch
+    fluxRepoPath: serviceLayerConfig.gitops.path
   }
   dependsOn: [
     cluster
