@@ -30,7 +30,8 @@ function getSubdirNames(fs, dir) {
 async function generateModulesTable(axios, fs, path, core) {
   const tableData = [["Module", "Version", "Docs"]];
   const moduleGroups = getSubdirNames(fs, "bicep/modules");
-  const tagsUrl = "https://api.github.com/repos/azure/osdu-bicep/tags?per_page=1000";
+  const tagsUrl =
+    "https://api.github.com/repos/azure/osdu-bicep/tags?per_page=1000";
   const tagsResponse = await axios.get(tagsUrl);
   const tags = tagsResponse.data;
 
@@ -75,7 +76,7 @@ async function generateModulesTable(axios, fs, path, core) {
       const latestTag = tags
         .filter((tag) => tag.name.includes(module + "/"))
         .map((tag) => tag.name.split("/").pop())
-        .sort((a, b) => a.localeCompare(b, undefined, { numeric:true }))
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
         .pop();
       return latestTag;
     }
