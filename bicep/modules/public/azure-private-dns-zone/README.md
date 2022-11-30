@@ -14,17 +14,25 @@ This module supports the following features.
 | :-------------------------------------- | :------: | :------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tags`                                  | `object` | No      | Tags         | 
                                                                                                                                                             
-| `name`                                  | `string` | No      | PrivateDnsZoneName  |
-                                                                                                                                                                                                                                  
-| `lock`                                  | `string` | No       | Optional. Specify the type of lock.                                                                                                                                                                                                                                          |
-| `privateLinkSettings`                   | `object` | No       | Settings Required to Enable Private Link                                                                                                                                                                                                                                                                                                                                                     |
+| `resourceName`                                  | `string` | No      | PrivateDnsZoneName  |
+
+
+| `virtualNetworkLinks`                                  | `array` | No      | Required to Enable Private Link   |
+
+| `location`                                  | `string` | No      | location         |     
+
+
+| `lock`                                  | `string` | No       | Optional. Specify the type of lock.  |
+                                                                                                                                                                | `roleAssignments`                       | `array`  | No       | Optional. Array of objects that describe RBAC permissions, format { roleDefinitionResourceId (string), principalId (string), principalType (enum), enabled (bool) }. Ref: https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/roleassignments?tabs=bicep |                                                                                                                                                                                  |
 
 ## Outputs
 
 | Name | Type   | Description               |
 | :--- | :----: | :------------------------ |
+| resourceGroupName   | string | The resource group the private DNS zone was deployed into.          |
+| name | string | The name of the private DNS zone. |
 | id   | string | The resource ID.          |
-| name | string | The name of the resource. |
+| location | string | The location of the resource. |
 
 ## Examples
 
@@ -34,12 +42,17 @@ This module supports the following features.
 module storage 'br:osdubicep.azurecr.io/public/private-dns-zone:1.0.4' = {
   name: 'PrivateDNSZoneModule'
   params: {
-    name: 'privatelink.blob.core.windows.net'
-    // Enable Private Link
-    privateLinkSettings: {
-      vnetId: network.outputs.id
-      subnetId: network.outputs.subnetIds[0]
-    }
+    resourceName: 'privatelink.blob.core.windows.net'
+    virtualNetworkLinks: [{
+        "name": "",
+        "virtualNetworkResourceId": "/subscriptions/8c7ece7c-856a-44a8-a8a6-179eee92d5c5/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs0",
+        "location": "global",
+        "registrationEnabled": false,
+        "tags": {
+          "Environment": "Dev",
+          "Project": "Tutorial"
+        }
+      }]
   }
 }
 ```

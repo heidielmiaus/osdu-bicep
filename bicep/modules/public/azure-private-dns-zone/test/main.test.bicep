@@ -1,22 +1,25 @@
 targetScope = 'resourceGroup'
 
 @description('PrivateDNSZone name.')
-param name string
+param resourceName string
 
 
 
-@description('Settings Required to Enable Private Link')
-param privateLinkSettings object = {
-  subnetId: '1' // Specify the Subnet for Private Endpoint
-  vnetId: '1'  // Specify the Virtual Network for Virtual Network Link
-}
-
+@description('custom objects describing vNet links of the DNS zone')
+ param virtualNetworkLinks array = [
+  {
+    name: '1'
+    virtualNetworkResourceId: '1'
+    location: 'global'
+    registrationEnabled: false
+  }
+ ]
 
 //  Module --> Create a Private DNS zone
 module privatednszone '../main.bicep' = {
-  name: 'privateDNSZone'
+  name: 'privateDnsZoneModule'
   params: {
-    privateLinkSettings: privateLinkSettings
-    name: name
+    virtualNetworkLinks: virtualNetworkLinks
+    resourceName: resourceName
   }
 }

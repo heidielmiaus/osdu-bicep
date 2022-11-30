@@ -5,8 +5,34 @@
     "template": "../main.bicep"
   },
   "parameters": {
-    "name": {
-      "value": "privatelink.blob.core.windows.net"
+    "resourceName": {
+      "value": "privatelinksarvin.blob.core.windows.net"
+    },
+    "virtualNetworkLinks": {
+      "value": [{
+        "name": "heidi",
+        "virtualNetworkResourceId": "/subscriptions/8c7ece7c-856a-44a8-a8a6-179eee92d5c5/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs0",
+        "location": "global",
+        "registrationEnabled": false,
+        "tags": {
+          "Environment": "Dev",
+          "Project": "Tutorial"
+        }
+      },
+      {
+        "name": "apple",
+        "virtualNetworkResourceId": "/subscriptions/8c7ece7c-856a-44a8-a8a6-179eee92d5c5/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/testvnet",
+        "location": "global",
+        "registrationEnabled": false,
+        "tags": {
+          "Environment": "Dev",
+          "Project": "Tutorial"
+        }
+      }
+    ]
+    },
+    "location": {
+      "value": "global"
     },
     "lock": {
       "value": "CanNotDelete"
@@ -16,13 +42,8 @@
         "Environment": "Dev",
         "Project": "Tutorial"
       }
-    },
-    "privateLinkSettings": {
-      "value": {
-        "subnetId": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs/subnets/clustersubnet",
-         "vnetId": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs"
-      }
     }
+
   }
 }
 
