@@ -10,8 +10,8 @@
     },
     "virtualNetworkLinks": {
       "value": [{
-        "name": "heidi",
-        "virtualNetworkResourceId": "/subscriptions/8c7ece7c-856a-44a8-a8a6-179eee92d5c5/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs0",
+        "name": "vnet-centralspokevnetwgqaau2z3blgs",
+        "virtualNetworkResourceId": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs",
         "location": "global",
         "registrationEnabled": false,
         "tags": {
@@ -20,8 +20,8 @@
         }
       },
       {
-        "name": "apple",
-        "virtualNetworkResourceId": "/subscriptions/8c7ece7c-856a-44a8-a8a6-179eee92d5c5/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/testvnet",
+        "name": "",
+        "virtualNetworkResourceId": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/testvnet",
         "location": "global",
         "registrationEnabled": false,
         "tags": {
