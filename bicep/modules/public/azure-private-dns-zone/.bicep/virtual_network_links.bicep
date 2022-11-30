@@ -3,8 +3,9 @@ param privateDnsZoneName string
 
 @description('Required. Link to another virtual network resource ID.')
 param virtualNetworkResourceId string
+
 @description('Optional. The name of the virtual network link.')
-param name string = '${last(split(virtualNetworkResourceId, '/'))}-vnetlink'
+param resourceName string
 
 @description('Optional. The location of the PrivateDNSZone. Should be global.')
 param location string = 'global'
@@ -22,7 +23,7 @@ resource privateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' existing 
 }
 
 resource virtualNetworkLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
-  name: name
+  name: resourceName
   parent: privateDnsZone
   location: location
   tags: tags
