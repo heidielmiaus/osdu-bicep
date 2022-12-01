@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "template": "../main.bicep"
+  },
+  "parameters": {
+    "resourceName": {
+      "value": "osdu-test-private_ep"
+    },
+    "subnetResourceId": {
+      "value": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/virtualNetworks/vnet-centralspokevnetwgqaau2z3blgs/subnets/clustersubnet"
+    },
+    "serviceResourceId": {
+      "value": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Storage/storageAccounts/sadata0vq4bqnk2jek4yiwpx"
+    },
+    "groupIds": {
+      "value": ["blob"]
+    },
+    "applicationSecurityGroups": {
+      "value": [
+        {
+          "id": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/applicationSecurityGroups/heidiasg",
+          "location": "South Central US",
+          "properties": {},
+          "tags": {}
+        },
+        {
+          "id": "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/applicationSecurityGroups/testappsecuritygroup",
+          "location": "South Central US",
+          "properties": {},
+          "tags": {}
+        }
+      ]
+    },
+    "customNetworkInterfaceName": {
+      "value": "osdu-test-nic-new"
+    },
+    "ipConfigurations": {
+      "value": []
+    },
+    "privateDnsZoneGroup": {
+      "value": {
+        "privateDNSResourceIds": ["/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/privateDnsZones/privatelinksarvin.blob.core.windows.net", "/subscriptions/222222-2222-2222-2222-2222222222/resourceGroups/osdubicep-testing/providers/Microsoft.Network/privateDnsZones/privatelinkparis.blobparis.core.windows.net"]
+      }
+    },
+    "location": {
+      "value": "South Central US"
+    },
+    "roleAssignments": {
+      "value": []
+    },
+    "lock": {
+      "value": "CanNotDelete"
+    },
+    "tags": {
+      "value": {
+        "Environment": "Dev",
+        "Project": "Tutorial"
+      }
+    },
+    "customDnsConfigs": {
+      "value": []
+    },
+    "manualPrivateLinkServiceConnections": {
+      "value": []
+    }
+  }
+}
+
+
