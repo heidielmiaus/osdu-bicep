@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.12.40.16777",
-      "templateHash": "17832464541983386007"
+      "version": "0.11.1.770",
+      "templateHash": "2390491057119277155"
     }
   },
   "parameters": {
@@ -100,17 +100,17 @@
           "privateDnsZoneName": {
             "value": "[variables('privateDnsZoneName')]"
           },
-          "name": {
+          "resourceName": {
             "value": "[if(and(contains(parameters('virtualNetworkLinks')[copyIndex()], 'name'), not(empty(parameters('virtualNetworkLinks')[copyIndex()].name))), parameters('virtualNetworkLinks')[copyIndex()].name, format('{0}_link_to_vnet', last(split(parameters('virtualNetworkLinks')[copyIndex()].virtualNetworkResourceId, '/'))))]"
           },
           "virtualNetworkResourceId": {
             "value": "[parameters('virtualNetworkLinks')[copyIndex()].virtualNetworkResourceId]"
           },
           "location": {
-            "value": "[if(contains(parameters('virtualNetworkLinks')[copyIndex()], 'location'), parameters('virtualNetworkLinks')[copyIndex()].location, 'global')]"
+            "value": "[if(and(contains(parameters('virtualNetworkLinks')[copyIndex()], 'location'), not(empty(parameters('virtualNetworkLinks')[copyIndex()].location))), parameters('virtualNetworkLinks')[copyIndex()].location, 'global')]"
           },
           "registrationEnabled": {
-            "value": "[if(contains(parameters('virtualNetworkLinks')[copyIndex()], 'registrationEnabled'), parameters('virtualNetworkLinks')[copyIndex()].registrationEnabled, false())]"
+            "value": "[if(and(contains(parameters('virtualNetworkLinks')[copyIndex()], 'registrationEnabled'), not(empty(parameters('virtualNetworkLinks')[copyIndex()].registrationEnabled))), parameters('virtualNetworkLinks')[copyIndex()].registrationEnabled, false())]"
           },
           "tags": {
             "value": "[if(contains(parameters('virtualNetworkLinks')[copyIndex()], 'tags'), parameters('virtualNetworkLinks')[copyIndex()].tags, createObject())]"
@@ -122,8 +122,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.12.40.16777",
-              "templateHash": "1171450956031605268"
+              "version": "0.11.1.770",
+              "templateHash": "6313436627487943019"
             }
           },
           "parameters": {
@@ -139,9 +139,8 @@
                 "description": "Required. Link to another virtual network resource ID."
               }
             },
-            "name": {
+            "resourceName": {
               "type": "string",
-              "defaultValue": "[format('{0}-vnetlink', last(split(parameters('virtualNetworkResourceId'), '/')))]",
               "metadata": {
                 "description": "Optional. The name of the virtual network link."
               }
@@ -172,7 +171,7 @@
             {
               "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
               "apiVersion": "2020-06-01",
-              "name": "[format('{0}/{1}', parameters('privateDnsZoneName'), parameters('name'))]",
+              "name": "[format('{0}/{1}', parameters('privateDnsZoneName'), parameters('resourceName'))]",
               "location": "[parameters('location')]",
               "tags": "[parameters('tags')]",
               "properties": {
@@ -186,14 +185,14 @@
           "outputs": {
             "name": {
               "type": "string",
-              "value": "[parameters('name')]",
+              "value": "[parameters('resourceName')]",
               "metadata": {
                 "description": "The name of the deployed virtual network link."
               }
             },
             "resourceId": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateDnsZones/virtualNetworkLinks', parameters('privateDnsZoneName'), parameters('name'))]",
+              "value": "[resourceId('Microsoft.Network/privateDnsZones/virtualNetworkLinks', parameters('privateDnsZoneName'), parameters('resourceName'))]",
               "metadata": {
                 "description": "The resource ID of the deployed virtual network link."
               }
@@ -207,7 +206,7 @@
             },
             "location": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateDnsZones/virtualNetworkLinks', parameters('privateDnsZoneName'), parameters('name')), '2020-06-01', 'full').location]",
+              "value": "[reference(resourceId('Microsoft.Network/privateDnsZones/virtualNetworkLinks', parameters('privateDnsZoneName'), parameters('resourceName')), '2020-06-01', 'full').location]",
               "metadata": {
                 "description": "The location the resource was deployed into."
               }
@@ -261,8 +260,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.12.40.16777",
-              "templateHash": "12972820051474402257"
+              "version": "0.11.1.770",
+              "templateHash": "2480290384251851776"
             }
           },
           "parameters": {
