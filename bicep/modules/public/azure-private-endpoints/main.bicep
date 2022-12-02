@@ -80,7 +80,6 @@ module privateEndpoint_privateDnsZoneGroup './.bicep/azure_private_dns_zone_grou
   params: {
     privateDNSResourceIds: privateDnsZoneGroup.privateDNSResourceIds
     privateEndpointName: privateEndpoint.name
-    resourceName: 'defaultPrivateDnsZoneGroup'
   }
 }
 
