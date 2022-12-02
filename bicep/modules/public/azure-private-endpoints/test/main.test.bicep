@@ -5,27 +5,54 @@ targetScope = 'resourceGroup'
 @description('Required. Used to name all resources')
 param resourceName string
 
-@description('Required. Resource ID of the resource that needs to be connected to the network.')
-param serviceResourceId string
+// Dependency: Storage
+module storage '../../storage-account/main.bicep' = {
+  name: 'storage_account'
+  params: {
+    resourceName: resourceName
+    sku: 'Standard_LRS'
+  }
+}
 
-@description('Required. Subtype(s) of the connection to be created. The allowed values depend on the type serviceResourceId refers to.')
-param groupIds array
+// Dependency: Private DNS Zone
+var publicDNSZoneForwarder = 'blob.${environment().suffixes.storage}'
+var privateDnsZoneName = 'privatelink.${publicDNSZoneForwarder}'
 
+resource privateDNSZone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+  name: privateDnsZoneName
+  location: 'global'
+  properties: {}
+}
 
-@description('Required. Resource ID of the subnet where the endpoint needs to be created.')
-param subnetResourceId string
-
-@description('Optional. The private DNS zone group configuration used to associate the private endpoint with one or multiple private DNS zones. A DNS zone group can support up to 5 DNS zones.')
-param privateDnsZoneGroup object = {}
+// Dependency: Network
+module network '../../virtual-network/main.bicep' = {
+  name: 'azure_vnet'
+  params: {
+    resourceName: resourceName
+    addressPrefixes: [
+      '192.168.0.0/24'
+    ]
+    subnets: [
+      {
+        name: 'default'
+        addressPrefix: '192.168.0.0/24'
+        privateEndpointNetworkPolicies: 'Disabled'
+        privateLinkServiceNetworkPolicies: 'Enabled'
+      }
+    ]
+  }
+}
 
 //  Module --> Create a PrivateEndpoint and privateEndpoints/privateDnsZoneGroups
 module privateEndpoint '../main.bicep' = {
-  name: 'privateEndpoint'
+  name: 'privateEndpointModule'
   params: {
     resourceName: resourceName
-    subnetResourceId: subnetResourceId
-    serviceResourceId: serviceResourceId
-    groupIds: groupIds
-    privateDnsZoneGroup: privateDnsZoneGroup
+    subnetResourceId: network.outputs.subnetIds[0]
+    serviceResourceId: storage.outputs.id
+    groupIds: [ 'blob']
+    privateDnsZoneGroup: {
+      privateDNSResourceIds: [privateDNSZone.id]
+    }
   }
 }
