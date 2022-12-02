@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "9462943492901865546"
+      "templateHash": "17069195426862872223"
     }
   },
   "parameters": {
@@ -161,11 +161,14 @@
         },
         "mode": "Incremental",
         "parameters": {
-          "dnsResourceIds": {
+          "privateDNSResourceIds": {
             "value": "[parameters('privateDnsZoneGroup').privateDNSResourceIds]"
           },
-          "endpointName": {
+          "privateEndpointName": {
             "value": "[parameters('resourceName')]"
+          },
+          "resourceName": {
+            "value": "defaultPrivateDnsZoneGroup"
           }
         },
         "template": {
@@ -175,17 +178,17 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "685523301500362217"
+              "templateHash": "665073765442094525"
             }
           },
           "parameters": {
-            "endpointName": {
+            "privateEndpointName": {
               "type": "string",
               "metadata": {
                 "description": "Conditional. The name of the parent private endpoint. Required if the template is used in a standalone deployment."
               }
             },
-            "dnsResourceIds": {
+            "privateDNSResourceIds": {
               "type": "array",
               "maxLength": 5,
               "minLength": 1,
@@ -199,17 +202,24 @@
               "metadata": {
                 "description": "Optional. The name of the private DNS zone group."
               }
+            },
+            "enableDefaultTelemetry": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Optional. Enable telemetry via a Globally Unique Identifier (GUID)."
+              }
             }
           },
           "variables": {
             "copy": [
               {
                 "name": "privateDnsZoneConfigs",
-                "count": "[length(parameters('dnsResourceIds'))]",
+                "count": "[length(parameters('privateDNSResourceIds'))]",
                 "input": {
-                  "name": "[last(split(parameters('dnsResourceIds')[copyIndex('privateDnsZoneConfigs')], '/'))]",
+                  "name": "[last(split(parameters('privateDNSResourceIds')[copyIndex('privateDnsZoneConfigs')], '/'))]",
                   "properties": {
-                    "privateDnsZoneId": "[parameters('dnsResourceIds')[copyIndex('privateDnsZoneConfigs')]]"
+                    "privateDnsZoneId": "[parameters('privateDNSResourceIds')[copyIndex('privateDnsZoneConfigs')]]"
                   }
                 }
               }
@@ -217,9 +227,23 @@
           },
           "resources": [
             {
+              "condition": "[parameters('enableDefaultTelemetry')]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2021-04-01",
+              "name": "[format('pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-{0}', uniqueString(deployment().name))]",
+              "properties": {
+                "mode": "Incremental",
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "resources": []
+                }
+              }
+            },
+            {
               "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
               "apiVersion": "2022-05-01",
-              "name": "[format('{0}/{1}', parameters('endpointName'), parameters('resourceName'))]",
+              "name": "[format('{0}/{1}', parameters('privateEndpointName'), parameters('resourceName'))]",
               "properties": {
                 "privateDnsZoneConfigs": "[variables('privateDnsZoneConfigs')]"
               }
@@ -235,7 +259,7 @@
             },
             "resourceId": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints/privateDnsZoneGroups', parameters('endpointName'), parameters('resourceName'))]",
+              "value": "[resourceId('Microsoft.Network/privateEndpoints/privateDnsZoneGroups', parameters('privateEndpointName'), parameters('resourceName'))]",
               "metadata": {
                 "description": "The resource ID of the private endpoint DNS zone group."
               }
