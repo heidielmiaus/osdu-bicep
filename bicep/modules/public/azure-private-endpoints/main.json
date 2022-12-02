@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "17069195426862872223"
+      "templateHash": "12327724865840544060"
     }
   },
   "parameters": {
@@ -166,9 +166,6 @@
           },
           "privateEndpointName": {
             "value": "[parameters('resourceName')]"
-          },
-          "resourceName": {
-            "value": "defaultPrivateDnsZoneGroup"
           }
         },
         "template": {
